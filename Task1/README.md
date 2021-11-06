@@ -1,3 +1,7 @@
+
+Program writer reads a file splits it on 100 byte chuncks and sends it via serial device.
+Program reader reads chunck from serial device, orders them and saves in file
+
 Compile project wia make all or make writer, make reader
 
 Create virtual serial device via socat: socat pty,raw,echo=0 pty,raw,echo=0

@@ -1,12 +1,8 @@
 #ifndef TASK_1_H_
 #define TASK_1_H_
 
-#include <stdio.h>
-
 #define INPUT_PAGE_SIZE 10
-#define BUFFER_SIZE 100
-// #define END_OF_CHUNCK
-
+#define BUFFER_SIZE 92
 
 struct ThreadParams {
     unsigned int chunck_counter;

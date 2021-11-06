@@ -1,9 +1,10 @@
-#include<fcntl.h>
+#include <fcntl.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <errno.h>
 #include "commons.h"
 
 // ./writer ~/lazy_wirm.jpg ~/Documents/workDev/RT/Task1/ttyS20
