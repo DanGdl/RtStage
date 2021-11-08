@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include "commons.h"
 
+#define INPUT_PAGE_SIZE 10
+
 // read stuff from stdin till new line or Q/q (exit)
 char* get_or_read_parameters(int position, int* argc, char* argv[], const char* message) {
     char* parameter = NULL;

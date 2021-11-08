@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
     }
 
 
-    unsigned char* buffer = calloc(BUFFER_SIZE, sizeof(char));
+    unsigned char* buffer = calloc(CHUNCK_BUFFER, sizeof(char));
     unsigned int total = 0;
     int pages = 1;
     int loop = 1;
@@ -28,18 +28,18 @@ int main(int argc, char* argv[]) {
         struct Chunck chunck = {0};
         if (read(file_to_read, &chunck, sizeof(struct Chunck)) > 0) {
             printf("Received chunk idx %u, size %u\n", chunck.chunck_idx, chunck.size);
-            int start_idx = chunck.chunck_idx * BUFFER_SIZE;
+            int start_idx = chunck.chunck_idx * CHUNCK_BUFFER;
             int end_idx = start_idx + chunck.size;
             
             // check if we can insert a chunck to our buffer. Enlarge it if it is too small
-            if (end_idx >= (pages * BUFFER_SIZE)) {
-                int old_size = pages * BUFFER_SIZE;
-                pages = 1 + end_idx / BUFFER_SIZE;
+            if (end_idx >= (pages * CHUNCK_BUFFER)) {
+                int old_size = pages * CHUNCK_BUFFER;
+                pages = 1 + end_idx / CHUNCK_BUFFER;
                 
-                buffer = realloc(buffer, pages * BUFFER_SIZE * sizeof(char));
+                buffer = realloc(buffer, pages * CHUNCK_BUFFER * sizeof(char));
                 
                 // unsigned char* tmp = buffer;
-                // buffer = calloc(pages * BUFFER_SIZE, sizeof(char));
+                // buffer = calloc(pages * CHUNCK_BUFFER, sizeof(char));
                 // memcpy(buffer, tmp, old_size);
                 // free(tmp);
             }
@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
             total += chunck.size;
             
             // if chunck is empty or too small - we got an end of transmission
-            if (chunck.size == 0 || chunck.size < BUFFER_SIZE) {
+            if (chunck.size == 0 || chunck.size < CHUNCK_BUFFER) {
                 loop = 0;
             }
         }
