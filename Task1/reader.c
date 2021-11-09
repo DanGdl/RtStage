@@ -6,8 +6,8 @@
 #include "commons.h"
 #include <errno.h>
 
-// socat pty,raw,echo=0,link=/home/max/Documents/workDev/RT/Task1/ttyS20 pty,raw,echo=0,link=/home/max/Documents/workDev/RT/Task1/ttyS21
-// ./reader ~/Documents/workDev/RT/Task1/ttyS20 ~/Documents/workDev/RT/Task1/wyrm.jpg
+// socat pty,raw,echo=0,link=/home/max/Documents/workDev/RtStage/Task1/ttyS20 pty,raw,echo=0,link=/home/max/Documents/workDev/RtStage/Task1/ttyS21
+// ./reader ~/Documents/workDev/RtStage/Task1/ttyS20 ~/Documents/workDev/RtStage/Task1/wyrm.jpg
 
 int main(int argc, char* argv[]) {
     char* path_to_read = get_or_read_parameters(1, &argc, argv, "Enter a path to uart (or Q - for exit):\n");       // get path to file to read chuncks

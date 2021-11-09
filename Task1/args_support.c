@@ -6,6 +6,11 @@
 
 #define INPUT_PAGE_SIZE 10
 
+
+int is_exit(char* symbol) {
+    return *symbol == 'Q' || *symbol == 'q';
+}
+
 // read stuff from stdin till new line or Q/q (exit)
 char* get_or_read_parameters(int position, int* argc, char* argv[], const char* message) {
     char* parameter = NULL;
@@ -21,7 +26,11 @@ char* get_or_read_parameters(int position, int* argc, char* argv[], const char* 
         while(1) {
             char symbol;
             scanf("%c", &symbol);
-            if (symbol == '\n' || symbol == 'Q' || symbol == 'q') {
+            int exit = is_exit(&symbol);
+            if (symbol == '\n' || exit) {
+                if (exit) {
+                    parameter[idx] = symbol;
+                }
                 break;
             }
             parameter[idx] = symbol;
