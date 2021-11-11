@@ -7,44 +7,71 @@
 #include "queue.h"
 #include <stdlib.h>
 
-Queue_t* create_queue() {
-	Queue_t *l = (Queue_t*) malloc(sizeof(Queue_t));
+Queue_t* queue_create() {
+	Queue_t* l = (Queue_t*) malloc(sizeof(Queue_t));
 	l -> head = NULL;
 	l -> last = NULL;
 	l -> size = 0;
 	return l;
 }
 
-int size(const Queue_t *list){
-	return list -> size;
+int queue_size(const Queue_t *queue){
+	return queue -> size;
 }
 
-Node_t* create_node(int data, Node_t *prev) {
-	Node_t *node = (Node_t*) malloc(sizeof(Node_t));
+Node_t* create_node(void* data, Node_t *prev) {
+	Node_t* node = (Node_t*) malloc(sizeof(Node_t));
 	node -> next = NULL;
 	node -> prev = prev;
 	node -> data = data;
 	return node;
 }
 
-void add(Queue_t *list, int data) {
-	if (list -> head == NULL) {
-		Node_t *node = create_node(data, NULL);
-
-		list -> head = node;
-		list -> last = node;
+void queue_add(Queue_t *queue, void* data) {
+    Node_t* last_node = NULL;
+    if (queue -> head != NULL) {
+        last_node = queue -> last;
+    }
+    Node_t* node = create_node(data, last_node);
+	if (queue -> head == NULL) {
+		queue -> head = node;
 	} else {
-		Node_t *node = create_node(data, list -> last);
-
-		list -> last -> next = node;
-		list -> last = node;
+		queue -> last -> next = node;
 	}
-	list -> size += 1;
+	queue -> last = node;
+	queue -> size += 1;
 }
 
+void* queue_remove(Queue_t *queue, Node_t* node) {
+    Node_t* current = queue -> head;
+    while (current != NULL && current != node) {
+        current = current -> next;
+    }
+    Node_t* prev = current -> prev;
+    Node_t* next = current -> next;
+    if (prev != NULL) {
+    	prev -> next = next;
+    }
+    if (next != NULL) {
+    	next -> prev = prev;
+    }
+    if (current == queue -> last) {
+		queue -> last = prev;
+	}
+    if (current == queue -> head) {
+		queue -> head = next;
+	}
+    queue -> size -= 1;
+    void* data = current -> data;
+    current -> next = NULL;
+    current -> prev = NULL;
+    current -> data = NULL;
+    free(current);
+    return data;
+}
 
-void clear(Queue_t *list) {
-	Node_t *node = list -> last;
+void queue_clear(Queue_t* queue) {
+	Node_t* node = queue -> last;
 	while (node != NULL) {
 		Node_t *tmp = node;
 		node = node -> prev;
@@ -56,25 +83,24 @@ void clear(Queue_t *list) {
 		if (node != NULL) {
 			node -> next = NULL;
 		}
-		list -> last = node;
+		queue -> last = node;
 	}
-	list -> head = NULL;
-	list -> last = NULL;
-	list -> size = 0;
+	queue -> head = NULL;
+	queue -> last = NULL;
+	queue -> size = 0;
 }
 
-int remove_last(Queue_t *list) {
-	Node_t * node = list -> last;
-	int data = node -> data;
-	list -> last = node -> prev;
-	if (list -> last == NULL) {
-		list -> head = NULL;
+void* remove_last(Queue_t* queue) {
+	Node_t* node = queue -> last;
+	void* data = node -> data;
+	queue -> last = node -> prev;
+	if (queue -> last == NULL) {
+		queue -> head = NULL;
 	} else {
-		list -> last -> next = NULL;
+		queue -> last -> next = NULL;
 	}
-	// node -> data = NULL;
+	node -> data = NULL;
 	free(node);
-	list -> size -= 1;
+	queue -> size -= 1;
 	return data;
 }
-

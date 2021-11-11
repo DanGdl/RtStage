@@ -1,9 +1,9 @@
 
 reader: 
-	gcc -ggdb args_support.c queue.h queue.c reader.c -o reader
+	gcc -ggdb args_support.c queue.c reader.c -o reader
 	
 writer: 
-	gcc -ggdb args_support.c queue.h queue.c writer.c -lpthread -o writer
+	gcc -ggdb args_support.c queue.c writer.c -lpthread -o writer
 
 all: reader writer
 	

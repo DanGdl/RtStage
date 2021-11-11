@@ -2,28 +2,38 @@
 #define TASK_1_H_
 
 #include "queue.h"
+#include <pthread.h>
 
 #define CHUNCK_BUFFER 100
 
 
-struct ThreadParams {
+typedef struct ThreadParams {
 	pthread_mutex_t* mutex;
     int* write_to;
-    struct Queue_t* files;
-};
+    Queue_t* queue;
+} ThreadParams_t;
 
-struct FileParams {
+typedef struct FileParams {
     int file_descriptor;
-    unsigned int chunck_counter;
+    long file_id;
+    unsigned long chunck_counter;
 	pthread_mutex_t* mutex;
-};
+} FileParams_t;
 
-// TODO: prepare to send  a list of files
-struct Chunck {
-    unsigned int chunck_idx;
+typedef struct Chunck {
+    unsigned long chunck_idx;
     unsigned int size;
+    long file_id;
     unsigned char payload[CHUNCK_BUFFER];
-};
+} Chunck_t;
+
+
+typedef struct CacheItem {
+    unsigned char* buffer;
+    unsigned int total;
+    unsigned int pages;
+    long file_id;
+} CacheItem_t;
 
 int is_exit(char* symbol);
 

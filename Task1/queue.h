@@ -10,7 +10,7 @@
 typedef struct Node {
 	struct Node *next;
 	struct Node *prev;
-	int data;
+	void* data;
 } Node_t;
 
 typedef struct Queue {
@@ -19,14 +19,16 @@ typedef struct Queue {
 	unsigned int size;
 } Queue_t;
 
-Queue_t* create_queue();
+Queue_t* queue_create();
 
-int size(const Queue_t *list);
+int queue_size(const Queue_t *queue);
 
-void add(Queue_t *list, int data);
+void queue_add(Queue_t *queue, void* data);
 
-void clear(Queue_t *list);
+void* queue_remove(Queue_t *queue, Node_t* data);
 
-int remove_last(Queue_t *list);
+void queue_clear(Queue_t *queue);
+
+void* remove_last(Queue_t *queue);
 
 #endif
